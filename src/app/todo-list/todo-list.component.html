@@ -1,36 +1,67 @@
 <section class="todoapp">
   <header class="header">
-    <h1>{{label}}</h1>
-    <form>
+    <h1 [class.editing]="editTitle" (dblclick)="editTitle = true">{{label}}</h1>
+    <form *ngIf="editTitle" (submit)="label = newTitleInput.value;">
+      <input  #newTitleInput
+              name    = "newTitleInput"
+              class   = "edit"
+              [ngModel] = "label"
+              (blur)  = "label = newTitleInput.value"
+      />
+    </form>
+    <form (submit)="appendItem(newTodoInput.value); newTodoInput.value = ''">
       <input  #newTodoInput
               name        = "newTodoInput"
               class       = "new-todo"
               placeholder = "Que faire?"
               autofocus />
     </form>
+    <section class="main">
+      <div class="voiceButton"> 
+        <button type="button" (click)="voice()">
+          <fa-icon class="faButton" [icon]="faMicro"></fa-icon>
+        </button>
+      </div>
+    </section>
   </header>
   <section class="main">
     <input  class="toggle-all"
             type="checkbox"
             name="toggleAll"
+            [ngModel] = "isAllDone()"
+            (ngModelChange) = "toggleAllDone()"
     />
     <ul class="todo-list">
+      <li *ngFor="let item of getFilteredItems()"  
+            [class.editing]="itemCompo.editionMode" 
+            [class.completed]="item.isDone">
+        <app-todo-item #itemCompo [data]="item"></app-todo-item>
+      </li>
     </ul>
   </section>
   <footer class="footer">
-    <span class="todo-count"><strong></strong> restantes</span>
+    <span class="todo-count"><strong>{{itemLeft}}</strong> restantes</span>
     <ul class="filters">
       <li>
-        <a class="filterAll">Tous</a>
+        <fa-icon class="faButton deleteAll" [icon]="faTrash" (click)="deleteAllItems()"></fa-icon>
       </li>
       <li>
-        <a class="filterActives">Actifs</a>
+        <fa-icon class="faButton" title="undo" [icon]="faUndo" (click)="undo()" ></fa-icon>
       </li>
       <li>
-        <a class="filterCompleted">Complétés</a>
+        <fa-icon class="faButton" title="redo" [icon]="faRedo" (click)="redo()"></fa-icon>
+      </li>
+      <li>
+        <a class="filterAll" (click)="currentFilter = filterAll">Tous</a>
+      </li>
+      <li>
+        <a class="filterActives" (click)="currentFilter = filterUndone">Actifs</a>
+      </li>
+      <li>
+        <a class="filterCompleted" (click)="currentFilter = filterDone">Complétés</a>
       </li>
     </ul>
-    <button class="clear-completed">Supprimer cochées</button>
+    <button class="clear-completed" (click)="removeCheckedItems()">Supprimer cochées</button>
   </footer>
 </section>
 <hr/>

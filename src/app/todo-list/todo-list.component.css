@@ -1,0 +1,23 @@
+.editing .edit {
+    display: block;
+    width: 506px;
+    padding: 13px 17px 12px 17px;
+    margin: 0 0 0 43px;
+}
+  
+.editing .view {
+    display: none;
+}
+
+.deleteAll {
+    color: red;
+}
+
+.voiceButton {
+    position: absolute;
+    top: -52px;
+    right: -2px;
+    width: 50px;
+    height: 34px;
+    cursor: pointer;
+}
