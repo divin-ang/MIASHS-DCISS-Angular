@@ -2,10 +2,6 @@ import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import * as _ from "lodash";
 
-interface IWindow extends Window {
-  webkitSpeechRecognition: any;
-  SpeechRecognition: any;
-}
 
 @Injectable({
   providedIn: 'root'
